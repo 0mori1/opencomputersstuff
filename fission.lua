@@ -33,7 +33,7 @@ while true do
     text(1, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel()) .. " H")
     text(1, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored()).. "/"..tostring(reactor.getMaxEnergyStored()).. " RF")
     ratio = reactor.getHeatLevel() / reactor.getMaxHeatLevel()
-    energyratio = reactor.getEnergyStored / reactor.getMaxEnergyStored
+    energyratio = reactor.getEnergyStored() / reactor.getMaxEnergyStored()
     if ratio >= 0.5 or energyratio >= 0.9 then
         reactor.deactivate()
         gpu.setBackground(0xFF0000)
