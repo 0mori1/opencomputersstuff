@@ -20,24 +20,30 @@ local reactor = component.proxy(getComponent("nc_fission_reactor"))
 local gpu = component.proxy(getComponent("gpu"))
 local screen = getComponent("screen")
 gpu.bind(screen)
+gpu.fill(1, 1, gpu.getResolution())
 local function text(x, y, color, text)
     gpu.setForeground(color or 0xFFFFFF)
     gpu.set(x or 1, y or 1, text or "Hello, world!")
 end
-text(2, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel() .. " H"))
-text(2, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored().. "/"..tostring(reactor.getMaxEnergyStored).. " RF"))
+text(1, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel() .. " H"))
+text(1, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored()) .. "/"..tostring(reactor.getMaxEnergyStored()).. " RF")
 while true do
     os.sleep(0.1)
     gpu.setBackground(0x000000)
     text(1, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel()) .. " H")
     text(1, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored()).. "/"..tostring(reactor.getMaxEnergyStored()).. " RF")
     ratio = reactor.getHeatLevel() / reactor.getMaxHeatLevel()
-    if ratio >= 0.5 then
+    energyratio = reactor.getEnergyStored / reactor.getMaxEnergyStored
+    if ratio >= 0.5 or energyratio >= 0.9 then
         reactor.deactivate()
         gpu.setBackground(0xFF0000)
-        text(1, 7, 0xFFFFFF, "Overheating!")
+        if ratio >= 0.5 then
+            text(1, 7, 0xFFFFFF, "Overheating!")
+        else
+            text(1, 7, 0xFFFFFF, "Power Reserve Full!")
+        end
     else
         reactor.activate()
-        fill(1, 7, 12, 1, " ")
+        gpu.fill(1, 7, 20, 1, " ")
     end
 end
