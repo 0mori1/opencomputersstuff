@@ -28,12 +28,16 @@ text(2, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostri
 text(2, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored().. "/"..tostring(reactor.getMaxEnergyStored).. " RF"))
 while true do
     os.sleep(0.1)
-    text(2, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel()) .. " H")
-    text(2, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored()).. "/"..tostring(reactor.getMaxEnergyStored()).. " RF")
+    gpu.setBackground(0x000000)
+    text(1, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel()) .. " H")
+    text(1, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored()).. "/"..tostring(reactor.getMaxEnergyStored()).. " RF")
     ratio = reactor.getHeatLevel() / reactor.getMaxHeatLevel()
     if ratio >= 0.5 then
         reactor.deactivate()
+        gpu.setBackground(0xFF0000)
+        text(1, 7, 0xFFFFFF, "Overheating!")
     else
         reactor.activate()
+        fill(1, 7, 12, 1, " ")
     end
 end
