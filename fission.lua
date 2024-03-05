@@ -24,7 +24,7 @@ local function text(x, y, color, text)
     gpu.setForeground(color or 0xFFFFFF)
     gpu.set(x or 1, y or 1, text or "Hello, world!")
 end
-text(2, 4, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel() .. " H"))
+text(2, 4, 0xFFFF00, "Heat: "..tostring(reactor.getHeatLevel()) .. "/" .. tostring(reactor.getMaxHeatLevel() .. " H"))
 text(2, 5, 0x00FF00, "Power: " .. tostring(reactor.getEnergyStored().. "/"..tostring(reactor.getMaxEnergyStored).. " RF"))
 while true do
     os.sleep(0.1)
