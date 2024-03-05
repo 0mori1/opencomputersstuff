@@ -1,3 +1,4 @@
+computer = require("computer")
 component = require("component")
 local function invertTable(table)
     local newtable = {}
@@ -9,6 +10,7 @@ end
 local function getComponent(componentType)
     local components = invertTable(component.list())
     if components[componentType] then
+        computer.beep(2000, 1)
         return components[componentType]
     else
         return nil
