@@ -1,7 +1,22 @@
 component = require("component")
-local reactor = component.nc_fission_reactor
-local gpu = component.proxy(component.gpu)
-local screen = component.screen
+local function invertTable(table)
+    local newtable = {}
+    for i, v in pairs(table) do
+        newtable[v] = i
+    end
+    return newtable
+end
+local function getComponent(componentType)
+    local components = invertTable(component.list())
+    if components[componentType] then
+        return components[componentType]
+    else
+        return nil
+    end
+end
+local reactor = component.proxy(getComponent("nc_fission_reactor"))
+local gpu = component.proxy(getComponent("gpu"))
+local screen = getComponent("screen")
 gpu.bind(screen)
 local function text(x, y, color, text)
     gpu.setForeground(color or 0xFFFFFF)
